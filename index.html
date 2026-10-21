@@ -221,7 +221,7 @@
       display:flex;align-items:center;justify-content:center;
       font-size:.78rem;color:#cbc5b5;
     }
-    .urgency .container{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+    .urgency .container{display:flex;align-items:center;justify-content:center;gap:18px;}
     .urgency b{color:var(--gold2);font-weight:800}
     .urgency .dot{
       width:6px;height:6px;border-radius:50%;background:var(--gold);
@@ -229,11 +229,6 @@
       animation:pulse 2s infinite ease-in-out;
     }
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-    .urgency button{
-      color:var(--gold2);border:1px solid var(--line);padding:4px 12px;border-radius:999px;
-      font-size:.74rem;font-weight:700;transition:.2s;
-    }
-    .urgency button:hover{background:rgba(201,167,97,.08)}
 
     /* HEADER */
     .topbar{
@@ -345,10 +340,10 @@
     .micro{font-size:.78rem;color:#8f8c82;letter-spacing:.01em}
     .micro b{color:#c9c3b3;font-weight:600}
 
-    /* EFEITO BIOGRAFIA NA FOTO DO HERO (AUMENTADA) */
+    /* EFEITO BIOGRAFIA NA FOTO DO HERO */
     .portrait-wrap{
       position:relative;
-      max-width:550px; /* Aumentado de 460px para 550px */
+      max-width:550px; 
       margin-left:auto;
       margin-top:-20px;
     }
@@ -482,10 +477,10 @@
     .quote strong{display:block;color:var(--cream);font-size:.9rem;font-family:Inter,sans-serif}
     .quote small{color:#8a8781;font-size:.74rem;text-transform:uppercase}
 
-    /* ABOUT (EFEITO BIOGRAFIA NA FOTO DA SEÇÃO SOBRE - AUMENTADA) */
+    /* ABOUT */
     .about{
       display:grid;
-      grid-template-columns:0.9fr 1.1fr; /* Proporção ajustada para dar mais destaque à foto */
+      grid-template-columns:0.9fr 1.1fr; 
       gap:50px;
       align-items:center;
     }
@@ -529,9 +524,9 @@
     
     .footer-col h4{font-size:.8rem;font-weight:800;color:var(--cream);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
     .footer-links{display:flex;flex-direction:column;gap:12px}
-    .footer-links a{display:flex;align-items:center;gap:8px;transition:color .2s}
+    .footer-links a, .footer-links span{display:flex;align-items:center;gap:8px;transition:color .2s}
     .footer-links a:hover{color:var(--gold2)}
-    .footer-links svg{width:16px;height:16px;fill:currentColor;opacity:0.7}
+    .footer-links svg{width:16px;height:16px;fill:currentColor;opacity:0.7;flex-shrink:0}
     
     .footer-bottom{border-top:1px solid var(--line2);padding-top:24px;text-align:center;font-size:.75rem;color:#666}
     
@@ -571,7 +566,7 @@
       .footer-grid{grid-template-columns:1fr 1fr}
     }
     @media(max-width:600px){
-      :root{--header-h:58px;--urgency-h:40px}
+      :root{--header-h:58px;--urgency-h:38px}
       .container{width:calc(100% - 26px)}
       .hero{padding-top:calc(var(--header-h) + var(--urgency-h) + 40px)}
       h1{font-size:clamp(2.4rem,12vw,3.6rem)}
@@ -582,6 +577,10 @@
       .top-btn{right:17px;bottom:84px}
       .dd-block{padding:36px 24px}
       .install-modal{align-items:center}
+      
+      /* Ajuste da barra superior no celular */
+      .urgency{font-size:.68rem; padding: 0 10px; text-align: center;}
+      .urgency .container{display:block; line-height: 1.2;}
     }
   </style>
 </head>
@@ -592,7 +591,6 @@
   <div class="urgency">
     <div class="container">
       <span><span class="dot"></span><b>Atendimento direto</b> · Transações à vista com segurança documental · CRECI-SP 289178-F</span>
-      <button id="btnInstallTop">📱 Fixar no celular</button>
     </div>
   </div>
 
@@ -1004,6 +1002,9 @@
           <a href="https://www.google.com/maps/search/?api=1&query=Yuri+Abyaza+Costa+-+Corretor+de+Im%C3%B3veis" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> Ver no Google Maps
           </a>
+          <a href="#" id="btnInstallFooter" style="color:var(--gold2); margin-top: 5px;">
+            <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg> 📱 Fixar no celular / App
+          </a>
         </div>
       </div>
     </div>
@@ -1071,19 +1072,20 @@
       });
     });
 
-    // Modal Fixar no Celular
+    // Modal Fixar no Celular (Agora no rodapé)
     const modal = document.getElementById('installModal');
-    const btnInstallTop = document.getElementById('btnInstallTop');
+    const btnInstallFooter = document.getElementById('btnInstallFooter');
     const btnCloseInstall = document.getElementById('btnCloseInstall');
     const btnCloseInstall2 = document.getElementById('btnCloseInstall2');
 
-    function toggleModal() {
+    function toggleModal(e) {
+      if(e) e.preventDefault();
       modal.classList.toggle('open');
       document.body.style.overflow = modal.classList.contains('open') ? 'hidden' : '';
     }
 
-    if (btnInstallTop) {
-      btnInstallTop.addEventListener('click', toggleModal);
+    if (btnInstallFooter) {
+      btnInstallFooter.addEventListener('click', toggleModal);
       btnCloseInstall.addEventListener('click', toggleModal);
       btnCloseInstall2.addEventListener('click', toggleModal);
       modal.addEventListener('click', (e) => {
